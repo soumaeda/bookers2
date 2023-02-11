@@ -20,7 +20,7 @@
         </tr>
       </table>
       <div class="row">
-        <%= link_to edit_user_path class: "btn btn-outline-secondary btn-block" do %>
+        <%= link_to edit_user_path(current_user), class: "btn btn-outline-secondary btn-block" do %>
           <i class="fad fa-user-cog"></i>
         <% end %>
       </div>
@@ -39,7 +39,18 @@
     <div class="col-md-8 offset-md-1">
       <h2>Books</h2>
       <table>
-        
+        <thead>
+          <th>Title</th>
+          <th>Opinion</th>
+        </thead>
+        <tbody>
+        <% @books.each do |book| %>
+        <tr>
+          <td><%= book.title %></td>
+          <td><%= book.body %></td>
+        </tr>
+        <% end %>
+        <tbody>
       </table>
     </div>
   </div>
