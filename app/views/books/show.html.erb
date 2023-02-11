@@ -1,2 +1,71 @@
-<h1>Books#show</h1>
-<p>Find me in app/views/books/show.html.erb</p>
+<div class="container px-5 px-sm-0">
+  <div class="row">
+    <div class="col-md-3">
+      <h1>User info</h1>
+      <% if @user.profile_image.attached? %>
+        <%= image_tag @user.profile_image, size: "100x100" %>
+      <% else %>
+        <%= image_tag 'no_image', size: "100x100" %>
+      <% end %>
+      
+      <table>
+        <tr>
+          <th>name</th>
+          <th><%= @user.name %></th>
+        </tr>
+      
+        <tr>
+          <th>introduction</th>
+          <th><%= @user.introduction %></th>
+        </tr>
+      </table>
+      <div class="row">
+        <%= link_to edit_user_path(current_user), class: "btn btn-outline-secondary btn-block" do %>
+          <i class="fad fa-user-cog"></i>
+        <% end %>
+      </div>
+      
+      <h1>New book</h1>
+      <%= form_with model: @book, url: books_path, method: :post do |f| %>
+        <h4>Title</h4>
+        <%= f.text_field :title %>
+	
+        <h4>Opinion</h4>
+        <%= f.text_area :body %>
+	
+        <%= f.submit '投稿' %>
+      <% end %>
+    </div>
+    <div class="col-md-8 offset-md-1">
+      <h2>Book detail</h2>
+      <table>
+        <thead>
+          <th>Title</th>
+          <th>Opinion</th>
+        </thead>
+        <tbody>
+          <% @books.each do |book| %>
+            <tr>
+              <td>
+                <% if book.user.profile_image.attached? %>
+                  <%= image_tag book.user.profile_image, size: "90x90" %>
+                <% else %>
+                  <%= image_tag 'no_image', size: "90x90" %>
+                <% end %><br>
+                <%= link_to book.user.name, "/users/#{book.user_id}" %>
+              </td>
+              <td><%= link_to book.title, "/books/#{book.id}" %></td>
+              <td><%= book.body %></td>
+              <% if @book.user_id == current_user.id %>
+              <td>
+                <%= link_to "Edit", edit_book_path(@book) %>
+                <%= link_to "Destroy", book_path(@book), method: :delete %>
+              </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
